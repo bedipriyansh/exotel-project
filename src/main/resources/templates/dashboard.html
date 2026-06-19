@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missed Call Dashboard | Exotel Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+<div class="container">
+    <!-- Header with Live Indicator -->
+    <header>
+        <h1>📞 Exotel Missed Call Dashboard</h1>
+        <div class="live-indicator">LIVE MONITORING ACTIVE</div>
+    </header>
+
+    <!-- Metrics Cards -->
+    <section class="cards">
+        <div class="card">
+            <span class="card-label">Total Missed Calls</span>
+            <span class="card-value" th:text="${totalCount}">0</span>
+        </div>
+        <div class="card">
+            <span class="card-label">Today's Missed Calls</span>
+            <span class="card-value" th:text="${todayCount}">0</span>
+        </div>
+        <div class="card">
+            <span class="card-label">Latest (Top 10)</span>
+            <span class="card-value" th:text="${#lists.size(latestCalls)}">0</span>
+        </div>
+    </section>
+
+    <!-- Interactive Filtering & Search Card -->
+    <section class="filters">
+        <form method="get" th:action="@{/dashboard}">
+            <div class="filter-group">
+                <label for="phoneNumber">Caller Number / Search</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Search by number..."
+                       th:value="${phoneNumber}" />
+            </div>
+            <div class="filter-group">
+                <label for="fromDate">From Date</label>
+                <input type="date" id="fromDate" name="fromDate" th:value="${fromDate}" />
+            </div>
+            <div class="filter-group">
+                <label for="toDate">To Date</label>
+                <input type="date" id="toDate" name="toDate" th:value="${toDate}" />
+            </div>
+            <div class="filter-actions">
+                <button type="submit" class="btn-search">Search</button>
+                <a th:href="@{/dashboard}" class="btn-clear">Clear</a>
+            </div>
+        </form>
+    </section>
+
+    <!-- Missed Calls Table Container -->
+    <section class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>Caller Name</th>
+                <th>Caller Number</th>
+                <th>Missed Call Time</th>
+                <th>Call Status</th>
+                <th>Call SID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(missedCalls)}">
+                <td colspan="5" class="empty-row">No missed calls found matching search criteria.</td>
+            </tr>
+            <tr th:each="call : ${missedCalls}">
+                <td class="td-name" th:text="${call.callerName}">Unknown</td>
+                <td class="td-phone" th:text="${call.callerNumber}">+910000000000</td>
+                <td class="td-time" th:text="${#temporals.format(call.missedCallTime, 'dd-MM-yyyy HH:mm:ss')}">-</td>
+                <td>
+                    <span class="status-badge" th:classappend="${#strings.toLowerCase(call.callStatus)}" th:text="${call.callStatus}">no-answer</span>
+                </td>
+                <td class="td-sid" th:text="${call.callSid}">CA000000</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Pagination controls -->
+    <section class="pagination" th:if="${totalPages > 1}">
+        <a th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+           th:href="@{/dashboard(page=${i}, size=${pageSize}, phoneNumber=${phoneNumber}, fromDate=${fromDate}, toDate=${toDate})}"
+           th:text="${i + 1}"
+           th:class="${i == currentPage} ? 'page-link active' : 'page-link'">1</a>
+    </section>
+</div>
+
+</body>
+</html>
