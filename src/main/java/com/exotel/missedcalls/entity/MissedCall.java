@@ -36,6 +36,9 @@ public class MissedCall {
     @Column(name = "caller_name", nullable = false, length = 150)
     private String callerName;
 
+    @Column(name = "destination_number", nullable = false, length = 20)
+    private String destinationNumber;
+
     @Column(name = "call_sid", nullable = false, unique = true, length = 100)
     private String callSid;
 

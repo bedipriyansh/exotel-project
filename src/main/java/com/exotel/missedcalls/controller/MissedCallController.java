@@ -3,6 +3,7 @@ package com.exotel.missedcalls.controller;
 import com.exotel.missedcalls.dto.ApiResponse;
 import com.exotel.missedcalls.dto.MissedCallResponse;
 import com.exotel.missedcalls.dto.PagedResponse;
+import com.exotel.missedcalls.dto.MissedCallAggregateResponse;
 import com.exotel.missedcalls.service.MissedCallService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -72,6 +73,13 @@ public class MissedCallController {
     public ResponseEntity<ApiResponse<List<MissedCallResponse>>> getLatest() {
         List<MissedCallResponse> result = missedCallService.getLatest();
         return ResponseEntity.ok(ApiResponse.success("Latest missed calls fetched successfully", result));
+    }
+
+    @Operation(summary = "Get count of missed calls grouped by route (caller to destination)")
+    @GetMapping("/route-summary")
+    public ResponseEntity<ApiResponse<List<MissedCallAggregateResponse>>> getRouteSummary() {
+        List<MissedCallAggregateResponse> result = missedCallService.getMissedCallAggregates();
+        return ResponseEntity.ok(ApiResponse.success("Route summary fetched successfully", result));
     }
 
     @Operation(summary = "Advanced search by phone number and/or date range")

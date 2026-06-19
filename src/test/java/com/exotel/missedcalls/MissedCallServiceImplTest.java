@@ -49,6 +49,7 @@ class MissedCallServiceImplTest {
         assertEquals(1L, response.getId());
         assertEquals("+919876543210", response.getCallerNumber());
         assertEquals("Rahul Sharma", response.getCallerName());
+        assertEquals("+912233445566", response.getDestinationNumber());
         assertEquals(CallStatus.NO_ANSWER.getExotelValue(), response.getCallStatus());
         verify(missedCallRepository, times(1)).save(any(MissedCall.class));
     }

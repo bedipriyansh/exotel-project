@@ -4,6 +4,7 @@ com\exotel\missedcalls\config\WebConfig.class
 com\exotel\missedcalls\entity\MissedCall.class
 com\exotel\missedcalls\controller\MissedCallController.class
 com\exotel\missedcalls\dto\MissedCallResponse$MissedCallResponseBuilder.class
+com\exotel\missedcalls\dto\MissedCallAggregateResponse$MissedCallAggregateResponseBuilder.class
 com\exotel\missedcalls\dto\ExotelWebhookRequest.class
 com\exotel\missedcalls\service\MissedCallService.class
 com\exotel\missedcalls\entity\MissedCall$MissedCallBuilder.class
@@ -22,6 +23,7 @@ com\exotel\missedcalls\dto\MissedCallResponse.class
 com\exotel\missedcalls\exception\GlobalExceptionHandler.class
 com\exotel\missedcalls\dto\PagedResponse$PagedResponseBuilder.class
 com\exotel\missedcalls\entity\Caller$CallerBuilder.class
+com\exotel\missedcalls\dto\MissedCallAggregateResponse.class
 com\exotel\missedcalls\entity\CallStatus.class
 com\exotel\missedcalls\exception\InvalidWebhookPayloadException.class
 com\exotel\missedcalls\service\impl\MissedCallServiceImpl.class

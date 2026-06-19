@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS missed_calls (
     id                BIGINT AUTO_INCREMENT PRIMARY KEY,
     caller_number     VARCHAR(20)  NOT NULL,
     caller_name       VARCHAR(150) NOT NULL,
+    destination_number VARCHAR(20)  NOT NULL DEFAULT 'Unknown',
     call_sid          VARCHAR(100) NOT NULL,
     call_status       VARCHAR(30)  NOT NULL,
     missed_call_time  DATETIME(6)  NOT NULL,
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS missed_calls (
 
 -- Indexes to speed up common lookups
 CREATE INDEX idx_missed_calls_caller_number ON missed_calls (caller_number);
+CREATE INDEX idx_missed_calls_destination_number ON missed_calls (destination_number);
 CREATE INDEX idx_missed_calls_missed_call_time ON missed_calls (missed_call_time);
 
 -- ------------------------------------------------------------

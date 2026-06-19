@@ -5,6 +5,7 @@ C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\miss
 C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\missedcalls\controller\MissedCallController.java
 C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\missedcalls\dto\ApiResponse.java
 C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\missedcalls\dto\ExotelWebhookRequest.java
+C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\missedcalls\dto\MissedCallAggregateResponse.java
 C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\missedcalls\dto\MissedCallResponse.java
 C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\missedcalls\dto\PagedResponse.java
 C:\Users\bedip\OneDrive\Desktop\exotel-missed-call\src\main\java\com\exotel\missedcalls\entity\Caller.java

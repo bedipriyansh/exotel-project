@@ -31,6 +31,34 @@
         </div>
     </section>
 
+    <!-- Route-wise Summary Section -->
+    <section class="table-wrapper" style="margin-bottom: 30px;">
+        <h2 style="padding: 16px 20px; font-size: 16px; font-weight: 600; border-bottom: 1px solid var(--card-border); background: rgba(15, 23, 42, 0.4); display: flex; align-items: center; gap: 8px;">📊 Missed Calls Count by Route (Caller ➔ Destination)</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Caller Name</th>
+                <th>Caller Number</th>
+                <th>Destination (Virtual) Number</th>
+                <th>Total Missed Calls</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(routeSummary)}">
+                <td colspan="4" class="empty-row">No routing data available.</td>
+            </tr>
+            <tr th:each="route : ${routeSummary}">
+                <td class="td-name" th:text="${route.callerName}">Unknown</td>
+                <td class="td-phone" th:text="${route.callerNumber}">+910000000000</td>
+                <td class="td-phone" th:text="${route.destinationNumber}">+910000000000</td>
+                <td>
+                    <span class="status-badge completed" style="font-size: 13px; font-family: monospace; padding: 2px 10px;" th:text="${route.missedCallCount}">0</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
     <!-- Interactive Filtering & Search Card -->
     <section class="filters">
         <form method="get" th:action="@{/dashboard}">
@@ -61,6 +89,7 @@
             <tr>
                 <th>Caller Name</th>
                 <th>Caller Number</th>
+                <th>Destination Number</th>
                 <th>Missed Call Time</th>
                 <th>Call Status</th>
                 <th>Call SID</th>
@@ -68,11 +97,12 @@
             </thead>
             <tbody>
             <tr th:if="${#lists.isEmpty(missedCalls)}">
-                <td colspan="5" class="empty-row">No missed calls found matching search criteria.</td>
+                <td colspan="6" class="empty-row">No missed calls found matching search criteria.</td>
             </tr>
             <tr th:each="call : ${missedCalls}">
                 <td class="td-name" th:text="${call.callerName}">Unknown</td>
                 <td class="td-phone" th:text="${call.callerNumber}">+910000000000</td>
+                <td class="td-phone" th:text="${call.destinationNumber}">+910000000000</td>
                 <td class="td-time" th:text="${#temporals.format(call.missedCallTime, 'dd-MM-yyyy HH:mm:ss')}">-</td>
                 <td>
                     <span class="status-badge" th:classappend="${#strings.toLowerCase(call.callStatus)}" th:text="${call.callStatus}">no-answer</span>

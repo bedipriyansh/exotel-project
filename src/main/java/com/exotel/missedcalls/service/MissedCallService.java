@@ -3,6 +3,7 @@ package com.exotel.missedcalls.service;
 import com.exotel.missedcalls.dto.ExotelWebhookRequest;
 import com.exotel.missedcalls.dto.MissedCallResponse;
 import com.exotel.missedcalls.dto.PagedResponse;
+import com.exotel.missedcalls.dto.MissedCallAggregateResponse;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
@@ -33,4 +34,6 @@ public interface MissedCallService {
     long getTodayCount();
 
     java.util.List<MissedCallResponse> getLatest();
+
+    java.util.List<MissedCallAggregateResponse> getMissedCallAggregates();
 }

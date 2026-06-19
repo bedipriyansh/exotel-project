@@ -3,6 +3,7 @@ package com.exotel.missedcalls.service.impl;
 import com.exotel.missedcalls.dto.ExotelWebhookRequest;
 import com.exotel.missedcalls.dto.MissedCallResponse;
 import com.exotel.missedcalls.dto.PagedResponse;
+import com.exotel.missedcalls.dto.MissedCallAggregateResponse;
 import com.exotel.missedcalls.entity.CallStatus;
 import com.exotel.missedcalls.entity.MissedCall;
 import com.exotel.missedcalls.exception.DuplicateCallSidException;
@@ -45,6 +46,17 @@ public class MissedCallServiceImpl implements MissedCallService {
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssXXX")
     );
 
+    @jakarta.annotation.PostConstruct
+    @Transactional
+    public void init() {
+        log.info("Normalizing destination numbers for existing database records...");
+        try {
+            missedCallRepository.normalizeDestinationNumbers();
+        } catch (Exception e) {
+            log.error("Failed to normalize destination numbers on startup", e);
+        }
+    }
+
     @Override
     @Transactional
     public MissedCallResponse processWebhookEvent(ExotelWebhookRequest request) {
@@ -58,12 +70,14 @@ public class MissedCallServiceImpl implements MissedCallService {
 
         String normalizedNumber = normalizePhoneNumber(request.getFrom());
         String callerName = callerService.resolveCallerName(normalizedNumber);
+        String destinationNumber = StringUtils.hasText(request.getTo()) ? normalizePhoneNumber(request.getTo()) : "Unknown";
         CallStatus status = CallStatus.fromString(request.getStatus());
         LocalDateTime missedTime = resolveMissedCallTime(request);
 
         MissedCall missedCall = MissedCall.builder()
                 .callerNumber(normalizedNumber)
                 .callerName(callerName)
+                .destinationNumber(destinationNumber)
                 .callSid(request.getCallSid())
                 .callStatus(status)
                 .missedCallTime(missedTime)
@@ -140,6 +154,12 @@ public class MissedCallServiceImpl implements MissedCallService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<MissedCallAggregateResponse> getMissedCallAggregates() {
+        return missedCallRepository.getMissedCallAggregates();
+    }
+
     // ---------------------------------------------------------------
     // Helper methods
     // ---------------------------------------------------------------
@@ -186,6 +206,7 @@ public class MissedCallServiceImpl implements MissedCallService {
                 .id(entity.getId())
                 .callerNumber(entity.getCallerNumber())
                 .callerName(entity.getCallerName())
+                .destinationNumber(entity.getDestinationNumber())
                 .callSid(entity.getCallSid())
                 .callStatus(entity.getCallStatus().getExotelValue())
                 .missedCallTime(entity.getMissedCallTime())

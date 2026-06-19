@@ -47,6 +47,7 @@ public class DashboardController {
         model.addAttribute("totalCount", missedCallService.getTotalCount());
         model.addAttribute("todayCount", missedCallService.getTodayCount());
         model.addAttribute("latestCalls", missedCallService.getLatest());
+        model.addAttribute("routeSummary", missedCallService.getMissedCallAggregates());
 
         return "dashboard";
     }

@@ -20,6 +20,7 @@ public class MissedCallResponse {
     private Long id;
     private String callerNumber;
     private String callerName;
+    private String destinationNumber;
     private String callSid;
     private String callStatus;
     private LocalDateTime missedCallTime;
